@@ -5,7 +5,7 @@ conn = sqlite3.connect('db_hero/heroes.db', check_same_thread=False) # ...=False
 cursor = conn.cursor()
 
 
-def get_info(hero):
+def get_hero_info(hero):
     conn = sqlite3.connect('db_hero/heroes.db', check_same_thread=False) # ...=False --> don't while check
     cursor = conn.cursor()
 
