@@ -35,6 +35,7 @@ def get_maps(setting = 0) -> str:
         cursor.execute("select maps from set_map")
         maps = cursor.fetchall()
         maps = [x[0] for x in maps]
+        # возвращает список мапов в формате ['map_name', 'map_name']
         maps = ';'.join(maps)
 
     return maps
