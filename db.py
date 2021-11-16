@@ -30,7 +30,7 @@ def get_maps(setting = 0) -> str:
         cursor.execute("select maps from set_map where setting=:setting", {"setting": setting})
         maps = cursor.fetchall()
         maps = [x[0] for x in maps]
-        maps = ';'.join(maps)
+        # maps = ';'.join(maps)
     else:
         cursor.execute("select maps from set_map")
         maps = cursor.fetchall()
