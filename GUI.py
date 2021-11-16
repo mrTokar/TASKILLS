@@ -26,39 +26,79 @@ MDScreen:
             icon: 'wrench-outline'
             badge_icon: "numeric-10"
             
+            
             MDGridLayout:
-                id: box_screen1_up
+                id: col
                 spacing: "56dp"
-                size_hint: 0.5,0.5
-                pos_hint: {"center_x": 0.5, "center_y": 0.7}
+                size_hint: 0.7,0.7
+                pos_hint: {"center_x": 0.5, "center_y": 0.55}
                 cols: 1
                 
-                MDDropDownItem:
-                    id: drop_item_setting
-                    text: 'Сеттинг'
-                    on_release: app.menu_setting.open()
+                MDGridLayout:
+                    id: row_setting
+                    spacing: "56dp"
+                    rows: 1 
+                        
+                    MDLabel:
+                        text: "Сеттинг"
+                        halign: "center"
+
+                    MDBoxLayout:
+                        id: box_drop_item_setting
+                        size_hint_x: 0.9
+                        
+                        MDDropDownItem:
+                            id: drop_item_setting
+                            text: '- - -'
+                            halign: "center"
+                            on_release: app.menu_setting.open()
                     
-                MDDropDownItem:
-                    id: drop_item_location
-                    text: "Локация"
-                    on_release: app.menu_location.open()
+                MDGridLayout:
+                    id: row_locations
+                    spacing: "56dp"
+                    rows: 1
                     
-                MDTextField:
-                    hint_text: "Неигровые персонажи"
-                    helper_text: "Введите неигровых персонажей через запятую"
-                    helper_text_mode: "on_focus"
-                
-                MDTextField:
-                    hint_text: "Ключевые предметы"
-                    helper_text: "Введите ключевые передметы через запятую"
-                    helper_text_mode: "on_focus"
+                    MDLabel:
+                        text: "Локация"
+                        halign: "center"
+                    
+                    MDBoxLayout:
+                        id: box_drop_item_setting
+                        size_hint_x: 0.9
+                        size_hint_y: 1
+                        
+                        MDDropDownItem:
+                            id: drop_item_location
+                            text: "- - -"
+                            on_release: app.menu_location.open()
+                    
+                MDGridLayout:
+                    id: row_mobs
+                    spacing: "56dp"
+                    rows: 1
+
+                    MDTextField:
+                        hint_text: "Неигровые персонажи"
+                        helper_text: "Введите неигровых персонажей через запятую"
+                        helper_text_mode: "on_focus"
+                    
+                    
+                MDGridLayout:
+                    id: row_items
+                    spacing: "56dp"
+                    rows: 1
+
+                    MDTextField:
+                        hint_text: "Ключевые предметы"
+                        helper_text: "Введите ключевые передметы через запятую"
+                        helper_text_mode: "on_focus"
             
             
             MDBoxLayout:
                 id: box_screen1_button
                 spacing: "56dp"
                 adaptive_size: True
-                pos_hint: {"center_x": 0.5, "center_y": 0.15}
+                pos_hint: {"center_x": 0.5, "center_y": 0.1}
                 
                 
 
@@ -68,10 +108,22 @@ MDScreen:
             icon: 'message-outline'
             badge_icon: "numeric-5"
 
-            MDLabel:
-                text: 'Описание'
-                halign: 'center'
-        
+            ScrollView:
+                do_scroll_x: False
+                
+                GridLayout:
+                    cols: 1
+                    padding: dp(5)
+                    size_hint_y: None
+                    height: self.minimum_height
+                    
+                    MDLabel:
+                        id: exposition
+                        text: 'Здесь пока ничего нет'
+                        size_hint_y: None
+                        valign: 'top'
+                        height: self.texture_size[1]
+                        text_size: self.width - dp(10), None          
 '''
 
 
@@ -109,14 +161,23 @@ class MainApp(MDApp):
         )
         self.menu_location.bind()
 
+    def change_text(self, new_text):
+        """Меняет текст в вкладке описание"""
+        self.screen.ids.exposition.text = new_text
 
     def set_item_setting(self, text_item):
+        """Устанавливает выбранное пользователем объект"""
         self.screen.ids.drop_item_setting.set_item(text_item)
         self.menu_setting.dismiss()
 
     def set_item_location(self, text_item):
+        """Устанавливает выбранное пользователем объект"""
         self.screen.ids.drop_item_location.set_item(text_item)
         self.menu_location.dismiss()
+
+    def button_press(self, event):
+        self.screen.ids.exposition.text += "PRESSED!!\n"*10
+
 
 
     def build(self):
@@ -128,6 +189,7 @@ class MainApp(MDApp):
                 text= 'Генерация',
                 font_size= 30,
                 md_bg_color= get_color_from_hex("#C0C0C0"),
+                on_release= self.button_press,
             )
         )
 
