@@ -12,7 +12,7 @@ def get_setting(mapn = 0) -> str:
     if mapn != 0:
         cursor.execute("select setting from set_map where maps=:mapn", {"mapn": mapn})
         setting = cursor.fetchall()
-        setting = setting[0][0]
+        settings = setting[0][0]
     else:
         cursor.execute("select setting from set_map")
         setting = cursor.fetchall()
