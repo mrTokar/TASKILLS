@@ -47,9 +47,12 @@ def get_maps_info(mapn) -> str:
 
 def get_hero_info(hero=0):
     if hero != 0:
-        cursor.execute("select hero_info from heroes_dnd where hero=:hero", {"hero": hero})
-        hero_info = cursor.fetchall()
-        hero_info = hero_info[0][0]
+        try:
+            cursor.execute("select hero_info from heroes_dnd where hero=:hero", {"hero": hero})
+            hero_info = cursor.fetchall()
+            hero_info = hero_info[0][0]
+        except IndexError:
+            return 'Такого персонажа не существует.'
     else:
         cursor.execute("SELECT hero_info FROM heroes_dnd")
         hero_info = cursor.fetchall()
