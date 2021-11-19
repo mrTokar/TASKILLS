@@ -6,7 +6,7 @@ from kivy.lang import Builder
 from kivy.utils import get_color_from_hex
 from kivy.metrics import dp
 
-from db import get_setting, get_maps
+from get_any import get_setting, get_maps
 
 from main import *
 
@@ -155,7 +155,7 @@ class MainApp(MDApp):
                 "text": name,
                 "height": dp(56),
                 "on_release": lambda x=name: self.set_item_location(x),
-            } for name in get_maps()
+            } for name in get_maps().split(';')
         ]
         self.menu_location = MDDropdownMenu(
             caller=self.screen.ids.drop_item_location,
@@ -180,7 +180,7 @@ class MainApp(MDApp):
                 "text": name,
                 "height": dp(56),
                 "on_release": lambda x=name: self.set_item_location(x),
-            } for name in get_maps(new_setting)
+            } for name in get_maps(new_setting).split(";")
         ]
         self.menu_location.items = menu_items
         self.screen.ids.drop_item_location.text = '- - -'
@@ -195,11 +195,12 @@ class MainApp(MDApp):
 
     def button_press(self, event):
         """Функция, выполняющаяся после наажтия на кнопку Генерировать"""
-        setting = self.screen.ids.drop_item_setting  # выбранный сеттинг
-        location = self.screen.ids.drop_item_location.text  # выбранная локация
-        mobs = self.screen.ids.text_field_mobs.text  # записанные мобы
-        items = self.screen.ids.text_field_items.text  # записанные предметы
-        main([setting, location, mobs, items])
+        setting = self.screen.ids.drop_item_setting.current_item  # выбранный сеттинг
+        location = self.screen.ids.drop_item_location.current_item  # выбранная локация
+        mobs = self.screen.ids.text_field_mobs.text.split(", ")  # список записанных мобов
+        items = self.screen.ids.text_field_items.text.split(", ")  # список записанных мобов
+        new_exposition = main([setting, location, mobs, items])
+        self.change_text(new_exposition)
 
     def build(self):
         return self.screen

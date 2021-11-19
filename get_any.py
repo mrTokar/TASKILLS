@@ -70,4 +70,4 @@ if __name__ == "__main__":
     print('def get_hero_info: ', get_hero_info('Вампиры'))
 
 
-conn.close()
+#conn.close()
