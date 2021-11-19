@@ -36,7 +36,7 @@ def get_maps(setting = 0) -> str:
     return maps # return in str, separated ;
 
 
-def get_item_info(mapn) -> str:
+def get_maps_info(mapn) -> str:
     """Возвращает информацию о локации и сеттинге"""
     cursor.execute("select maps_info from set_map where maps=:mapn", {"mapn": mapn})
     info = cursor.fetchall()
@@ -61,7 +61,7 @@ def get_hero_info(hero=0):
 '''
 print('def get_setting: ', get_setting())
 print('def get_maps: ', get_maps())
-print('def get_item_info: ', get_item_info('Nirn'))
+print('def get_item_info: ', get_maps_info('Nirn'))
 print('def get_hero_info: ', get_hero_info('Вампиры'))
 '''
 
